@@ -1,0 +1,112 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "SM213 Assembly",
+	"patterns": [
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#instructions"
+		},
+		{
+			"include": "#registers"
+		},
+		{
+			"include": "#labels"
+		},
+		{
+			"include": "#directives"
+		},
+		{
+			"include": "#constants"
+		},
+		{
+			"include": "#variables"
+		}
+	],
+	"repository": {
+		"comments": {
+			"patterns": [{
+				"name": "comment.line.number-sign.sm213",
+				"match": "#(.*)\\n"
+			}]
+		},
+		"instructions": {
+			"patterns": [
+				{
+					"name": "keyword.other.instruction.sm213",
+					"match": "\\b(ld|st|halt|nop|mov|add|inc|inca|dec|deca|not|shl|shr|br|beq|bgt|j|gpc|sys)\\b"
+				}
+			]
+		},
+		"registers": {
+			"patterns": [
+				{
+					"name": "variable.language.register.sm213",
+					"match": "\\br[0-6]\\b"
+				}
+			]
+		},
+		"labels": {
+			"patterns": [
+				{
+					"name": "entity.name.tag.sm213",
+					"match": "^(\\w|\\d)+:"
+				}
+			]
+		},
+		"directives": {
+			"patterns": [
+				{
+					"name": "keyword.control.sm213",
+					"match": "^\\.(pos|address) 0x\\d+"
+				},
+				{
+					"name": "support.type.sm213",
+					"match": "\\.(long|data)\\b"
+				}
+			]
+		},
+		"constants": {
+			"patterns": [
+				{
+					"comment": "Value hex constant, as opposed to offset",
+					"name": "constant.numeric.valhex.sm213",
+					"match": "\\b\\$0x\\d+\\b"
+				},
+				{
+					"comment": "Value decimal constant, as opposed to offset",
+					"name": "constant.numeric.valdec.sm213",
+					"match": "\\b\\$(-?\\d)+\\b"
+				},
+				{
+					"comment": "Offset hex constant, as opposed to value",
+					"match": "\\b(0x\\d+)\\((r[0-6])\\)",
+					"captures": {
+						"1" : { "name": "constant.numeric.offsethex.sm213" },
+						"2" : { "name": "variable.language.register.sm213"}
+					}
+				},
+				{
+					"comment": "Offset decimal constant, as opposed to value",
+					"match": "\\b(\\d+)\\((r[0-6])\\)",
+					"captures": {
+						"1" : { "name": "constant.numeric.offsetdec.sm213" },
+						"2" : { "name": "variable.language.register.sm213"}
+					}
+				}
+			]
+		},
+		"variables": {
+			"patterns": [
+				{
+					"match": "(\\$(\\w(\\w|\\d)+))\\b",
+					"captures": {
+						"1": {"name": "variable.name.addr.sm213"}
+					}
+				}
+			]
+		}
+	},
+	"scopeName": "source.sm213"
+}

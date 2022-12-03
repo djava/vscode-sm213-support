@@ -1,0 +1,25 @@
+{
+  "name": "sm213-support",
+  "displayName": "SM213 Support",
+  "description": "Syntax highlighting for SM213, from UBC's CPSC213",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.73.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "sm213",
+      "aliases": ["SM213 Assembly", "sm213"],
+      "extensions": [".s"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "sm213",
+      "scopeName": "source.sm213",
+      "path": "./syntaxes/sm213.tmLanguage.json"
+    }]
+  }
+}
