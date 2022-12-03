@@ -6,6 +6,12 @@
 			"include": "#comments"
 		},
 		{
+			"include": "#indexing"
+		},
+		{
+			"include": "#j_or_br"
+		},
+		{
 			"include": "#instructions"
 		},
 		{
@@ -35,7 +41,7 @@
 			"patterns": [
 				{
 					"name": "keyword.other.instruction.sm213",
-					"match": "\\b(ld|st|halt|nop|mov|add|inc|inca|dec|deca|not|shl|shr|br|beq|bgt|j|gpc|sys)\\b"
+					"match": "\\b(ld|st|halt|nop|mov|add|inc|inca|dec|deca|not|shl|shr|gpc|sys|j|br|bgt|beq)\\b"
 				}
 			]
 		},
@@ -43,7 +49,7 @@
 			"patterns": [
 				{
 					"name": "variable.language.register.sm213",
-					"match": "\\br[0-6]\\b"
+					"match": "\\br[0-7]\\b"
 				}
 			]
 		},
@@ -58,12 +64,19 @@
 		"directives": {
 			"patterns": [
 				{
-					"name": "keyword.control.sm213",
-					"match": "^\\.(pos|address) 0x\\d+"
+					"match": "^(\\.(pos|address)) (0x\\d+)",
+					"captures": {
+						"1": { "name": "keyword.control.sm213" },
+						"3": { "name": "constant.numeric.valhex.sm213" }
+					}
 				},
 				{
-					"name": "support.type.sm213",
-					"match": "\\.(long|data)\\b"
+					"match": "\\s*(\\.(long|data)) (((0x|-)?\\d+)|(\\w(\\w|\\d)*))",
+					"captures": {
+						"1": { "name": "support.type.sm213" },
+						"4": { "name": "constant.numeric.val.sm213"},
+						"6": { "name": "variable.name.addr.sm213" }
+					}
 				}
 			]
 		},
@@ -72,27 +85,27 @@
 				{
 					"comment": "Value hex constant, as opposed to offset",
 					"name": "constant.numeric.valhex.sm213",
-					"match": "\\b\\$0x\\d+\\b"
+					"match": "\\$0x\\d+\\b"
 				},
 				{
 					"comment": "Value decimal constant, as opposed to offset",
 					"name": "constant.numeric.valdec.sm213",
-					"match": "\\b\\$(-?\\d)+\\b"
+					"match": "\\$(-?\\d)+\\b"
 				},
 				{
 					"comment": "Offset hex constant, as opposed to value",
-					"match": "\\b(0x\\d+)\\((r[0-6])\\)",
+					"match": "(0x\\d+)\\((r[0-7])\\)",
 					"captures": {
 						"1" : { "name": "constant.numeric.offsethex.sm213" },
-						"2" : { "name": "variable.language.register.sm213"}
+						"2" : { "name": "variable.language.register.sm213" }
 					}
 				},
 				{
 					"comment": "Offset decimal constant, as opposed to value",
-					"match": "\\b(\\d+)\\((r[0-6])\\)",
+					"match": "(\\d+)\\((r[0-7])\\)",
 					"captures": {
 						"1" : { "name": "constant.numeric.offsetdec.sm213" },
-						"2" : { "name": "variable.language.register.sm213"}
+						"2" : { "name": "variable.language.register.sm213" }
 					}
 				}
 			]
@@ -100,9 +113,42 @@
 		"variables": {
 			"patterns": [
 				{
-					"match": "(\\$(\\w(\\w|\\d)+))\\b",
+					"match": "(\\$(\\w(\\w|\\d)*))\\b",
 					"captures": {
-						"1": {"name": "variable.name.addr.sm213"}
+						"1": { "name": "variable.name.addr.sm213" }
+					}
+				}
+			]
+		},
+		"j_or_br": {
+			"patterns": [
+				{
+					"match": "\\b(br|j)\\s+((0x\\d+)|(\\w(\\w|\\d)*))",
+					"captures": {
+						"1": { "name": "keyword.control.branch.sm213" },
+						"3": { "name": "constant.numeric.jumphex.sm213" },
+						"4": { "name": "variable.name.addr.sm213" }
+					}
+				},
+				{
+					"match": "\\b(beq|bgt)\\s+(r[0-7]),\\s*((0x\\d+)|(\\w(\\w|\\d)*))",
+					"captures": {
+						"1": { "name": "keyword.control.branch.cond.sm213" },
+						"2": { "name": "variable.language.register.sm213" },
+						"4": { "name": "variable.numeric.jumphex.sm213" },
+						"5": { "name": "variable.name.addr.sm213" }
+					}
+				}
+			]
+		},
+		"indexing": {
+			"patterns": [
+				{
+					"match": "\\(\\s*(r[0-7])\\s*,\\s*(r[0-7])\\s*,\\s*(4)\\s*\\)",
+					"captures": {
+						"1": { "name": "variable.language.register.sm213" },
+						"2": { "name": "variable.language.register.sm213" },
+						"3": { "name": "constant.numeric.index.sm213" }
 					}
 				}
 			]
