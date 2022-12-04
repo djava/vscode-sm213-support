@@ -2,7 +2,11 @@
   "name": "sm213-support",
   "displayName": "SM213 Support",
   "description": "Syntax highlighting for SM213, from UBC's CPSC213",
-  "version": "0.0.1",
+  "publisher": "leoriesenbach",
+  "repository": {
+    "url": "https://github.com/djava/vscode-sm213-support"
+  },
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.73.0"
   },
